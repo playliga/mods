@@ -4,9 +4,16 @@
  *
  * @module
  */
-import path from 'node:path';
+import * as readline from "node:readline/promises";
+import path from "node:path";
 import AppInfo from "../package.json" assert { type: "json" };
 import { Command } from "commander";
+
+/** @constant */
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
 
 /**
  * TBD
@@ -14,7 +21,13 @@ import { Command } from "commander";
  * @function
  */
 async function handler() {
-  console.log('here');
+  try {
+    const name = await rl.question("Name: ");
+    const description = await rl.question("Description: ");
+    console.table({ name, description });
+  } finally {
+    rl.close();
+  }
   return Promise.resolve();
 }
 
