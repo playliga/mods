@@ -1,0 +1,22 @@
+{
+  "name": "@liga/mods",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "cli/create.ts",
+  "description": "Database and team logo customizations for LIGA Esports Manager.",
+  "author": "Steve Rivera",
+  "license": "GPL-3.0-or-later",
+  "devDependencies": {
+    "@eslint/js": "9.15.0",
+    "@types/node": "22.9.3",
+    "eslint": "9.15.0",
+    "eslint-config-prettier": "9.1.0",
+    "globals": "15.12.0",
+    "prettier": "3.3.3",
+    "typescript": "5.7.2",
+    "typescript-eslint": "8.15.0"
+  },
+  "dependencies": {
+    "commander": "12.1.0"
+  }
+}
