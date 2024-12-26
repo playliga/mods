@@ -32,7 +32,7 @@ jobs:
           --sentinel-fuse NODE_SEA_FUSE_${{ env.NODE_SEA_FUSE }}
           --overwrite
       - run: choco install -y --no-progress rcedit
-      - run: rcedit build/lmc.exe --set-icon icon.ico
+      - run: rcedit "build/lmc.exe" --set-icon icon.ico
       - uses: actions/upload-artifact@v4
         with:
           name: build/
