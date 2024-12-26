@@ -13,7 +13,7 @@ jobs:
     env:
       NODE_SEA_FUSE: "fce680ab2cc467b6e072b8b5df1996b2"
     steps:
-      - run: gci -r "C:/Program Files" signtool.exe
+      - run: gci -r "C:/Program Files (x86)/Windows Kits/10/bin" signtool.exe
       # - uses: actions/checkout@v4
       # - uses: actions/setup-node@v4
       #   with:
