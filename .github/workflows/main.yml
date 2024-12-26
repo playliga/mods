@@ -18,7 +18,7 @@ jobs:
           | Select-Object -Last 1
           | ForEach-Object {'SIGNTOOLS_EXE={0}' -f $_.FullName}
           | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-      - run: $env:SIGNTOOLS_EXE remove /s "build/lmc.exe"
+      - run: icm {$env:SIGNTOOLS_EXE remove /s "build/lmc.exe"}
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
