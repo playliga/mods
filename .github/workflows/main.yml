@@ -31,7 +31,7 @@ jobs:
           npx -y postject "build/lmc.exe" NODE_SEA_BLOB "build/bundle.blob"
           --sentinel-fuse NODE_SEA_FUSE_${{ env.NODE_SEA_FUSE }}
           --overwrite
-      - run: npx -y resedit -i build/lmc.exe -o build/lmc.exe --icon 1,icon.ico
+      - run: npx -y resedit -- -i build/lmc.exe -o build/lmc.exe --icon 1,icon.ico
       - uses: actions/upload-artifact@v4
         with:
           name: build
