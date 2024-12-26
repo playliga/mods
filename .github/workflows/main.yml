@@ -8,76 +8,57 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
+  build:
+    runs-on: windows-2022
+    env:
+      NODE_SEA_FUSE: "fce680ab2cc467b6e072b8b5df1996b2"
     steps:
       - uses: actions/checkout@v4
-      - run: mkdir build
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - run: npm ci
+      - run: npm run build
+      - run: node --experimental-sea-config sea.config.json
+      - run: node -e "require('fs').copyFileSync(process.execPath, 'build/lmc.exe')"
+      - run: >
+          gci -r "C:/Program Files (x86)/Windows Kits/10/bin/**/x86" signtool.exe
+          | Select-Object -Last 1
+          | ForEach-Object {'SIGNTOOLS_EXE={0}' -f $_.FullName}
+          | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+      - run: '& $env:SIGNTOOLS_EXE remove /s "build/lmc.exe"'
+      - run: >
+          npx -y postject "build/lmc.exe" NODE_SEA_BLOB "build/bundle.blob"
+          --sentinel-fuse NODE_SEA_FUSE_${{ env.NODE_SEA_FUSE }}
+          --overwrite
+      - uses: actions/upload-artifact@v4
+        with:
+          name: build
+          path: build/lmc.exe
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
       - run: |
           for mod in $(ls custom); do
           (
-            tempdir=$(mktemp -d);
-            mkdir $tempdir/custom;
-            cp -r custom/$mod/* $tempdir/custom;
-            cd $tempdir;
-            zip -r ${{ github.workspace }}/build/$mod.zip custom/;
-            rm -rf $tempdir;
+            tempdir=$(mktemp -d)
+            mkdir $tempdir/custom
+            cp -r custom/$mod/* $tempdir/custom
+            cd $tempdir
+            zip -r ${{ github.workspace }}/build/$mod.zip custom/
+            rm -rf $tempdir
           )
           done
+      - run: jq --slurp '.' custom/**/metadata.json >> build/index.json
       - uses: actions/upload-artifact@v4
         with:
           path: build/complexity.zip
-  # build:
-  #   runs-on: windows-2022
-  #   env:
-  #     NODE_SEA_FUSE: "fce680ab2cc467b6e072b8b5df1996b2"
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - uses: actions/setup-node@v4
-  #       with:
-  #         node-version-file: .nvmrc
-  #     - run: npm ci
-  #     - run: npm run build
-  #     - run: node --experimental-sea-config sea.config.json
-  #     - run: node -e "require('fs').copyFileSync(process.execPath, 'build/lmc.exe')"
-  #     - run: >
-  #         gci -r "C:/Program Files (x86)/Windows Kits/10/bin/**/x86" signtool.exe
-  #         | Select-Object -Last 1
-  #         | ForEach-Object {'SIGNTOOLS_EXE={0}' -f $_.FullName}
-  #         | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-  #     - run: '& $env:SIGNTOOLS_EXE remove /s "build/lmc.exe"'
-  #     - run: >
-  #         npx -y postject "build/lmc.exe" NODE_SEA_BLOB "build/bundle.blob"
-  #         --sentinel-fuse NODE_SEA_FUSE_${{ env.NODE_SEA_FUSE }}
-  #         --overwrite
-  #     - uses: actions/upload-artifact@v4
-  #       with:
-  #         name: build
-  #         path: build/lmc.exe
-  # publish:
-  #   needs: build
-  #   runs-on: ubuntu-latest
-  #   env:
-  #     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - uses: actions/download-artifact@v4
-  #     - run: >
-  #         for mod in $(ls custom); do
-  #         (
-  #           tempdir=$(mktemp -d)
-  #           && mkdir $tempdir/custom
-  #           && cp -r custom/$mod/* $tempdir/custom
-  #           && cd $tempdir
-  #           && zip -r ${{ github.workspace }}/build/$mod.zip custom/
-  #           && rm -rf $tempdir
-  #         );
-  #         done
-  #     - run: jq --slurp '.' custom/**/metadata.json >> build/index.json
-  #     - uses: actions/upload-artifact@v4
-  #       with:
-  #         path: build/complexity.zip
-  #     - run: >
-  #         gh release create $(cat package.json | jq -r '.version')
-  #         --latest
-  #         --title $(cat package.json | jq -r '.version') build/*
+      - run: >
+          gh release create $(cat package.json | jq -r '.version')
+          --latest
+          --title $(cat package.json | jq -r '.version') build/*
