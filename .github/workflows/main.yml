@@ -31,21 +31,36 @@ jobs:
           npx -y postject "build/lmc.exe" NODE_SEA_BLOB "build/bundle.blob"
           --sentinel-fuse NODE_SEA_FUSE_${{ env.NODE_SEA_FUSE }}
           --overwrite
-      - run: choco install -y --no-progress rcedit
-      - run: rcedit "build/lmc.exe" --set-icon icon.ico
+      # - run: choco install -y --no-progress rcedit
+      # - run: rcedit "build/lmc.exe" --set-icon icon.ico
       - uses: actions/upload-artifact@v4
         with:
           name: build/
           path: build/lmc.exe
-  publish:
+  icon:
     needs: build
+    runs-on: windows-2022
+    steps:
+      - run: Invoke-WebRequest -Uri https://www.angusj.com/resourcehacker/resource_hacker.zip -OutFile rh.zip
+      - run: Expand-Archive -Path rh.zip -DestinationPath "$env:TEMP"
+      - run: >
+          & $env:TEMP/ResourceHacker.exe
+          -open "build/lmc.exe"
+          -save "generated/lmc.exe"
+          -resource icon.ico
+          -action modify
+          -mask ICONGROUP,MAINICON,
+      - uses: actions/upload-artifact@v4
+        with:
+          name: generated/
+          path: generated/lmc.exe
+  publish:
+    needs: icon
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
       - uses: actions/download-artifact@v4
-      - run: npm ci
       - run: ls -la
-      - run: ls -la build/
+      - run: ls -la generated/
