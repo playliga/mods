@@ -13,6 +13,8 @@ jobs:
     env:
       NODE_SEA_FUSE: "fce680ab2cc467b6e072b8b5df1996b2"
     steps:
+      - run: choco install rcedit -y
+      - run: rcedit build/lmc.exe --set-icon icon.ico
       - run: >
           gci -r "C:/Program Files (x86)/Windows Kits/10/bin/**/x86" signtool.exe
           | Select-Object -Last 1
@@ -31,6 +33,8 @@ jobs:
           npx -y postject "build/lmc.exe" NODE_SEA_BLOB "build/bundle.blob"
           --sentinel-fuse NODE_SEA_FUSE_${{ env.NODE_SEA_FUSE }}
           --overwrite
+      - run: choco install rcedit -y
+      - run: rcedit build/lmc.exe --set-icon icon.ico
       - uses: actions/upload-artifact@v4
         with:
           name: build/
