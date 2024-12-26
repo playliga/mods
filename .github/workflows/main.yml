@@ -12,15 +12,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: >
+      - run: |
           for mod in $(ls custom); do
           (
-            tempdir=$(mktemp -d)
-            && mkdir $tempdir/custom
-            && cp -r custom/$mod/* $tempdir/custom
-            && cd $tempdir
-            && zip -r ${{ github.workspace }}/build/$mod.zip custom/
-            && rm -rf $tempdir
+            tempdir=$(mktemp -d);
+            mkdir $tempdir/custom;
+            cp -r custom/$mod/* $tempdir/custom;
+            cd $tempdir;
+            zip -r ${{ github.workspace }}/build/$mod.zip custom/;
+            rm -rf $tempdir;
           )
           done
       - uses: actions/upload-artifact@v4
