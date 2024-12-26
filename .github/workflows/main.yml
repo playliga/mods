@@ -13,6 +13,9 @@ jobs:
     env:
       NODE_SEA_FUSE: "fce680ab2cc467b6e072b8b5df1996b2"
     steps:
+      - run: Invoke-WebRequest -Uri https://www.angusj.com/resourcehacker/resource_hacker.zip -OutFile rh.zip
+      - run: Expand-Archive -Path rh.zip -DestinationPath "$env:TEMP"
+      - run: ls "$env:TEMP/ResourceHacker.exe"
       - run: >
           gci -r "C:/Program Files (x86)/Windows Kits/10/bin/**/x86" signtool.exe
           | Select-Object -Last 1
@@ -41,6 +44,7 @@ jobs:
     needs: build
     runs-on: windows-2022
     steps:
+      - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
       - run: Invoke-WebRequest -Uri https://www.angusj.com/resourcehacker/resource_hacker.zip -OutFile rh.zip
       - run: Expand-Archive -Path rh.zip -DestinationPath "$env:TEMP"
@@ -49,7 +53,7 @@ jobs:
           -open "build/lmc.exe"
           -save "generated/lmc.exe"
           -resource icon.ico
-          -action modify
+          -action addskip
           -mask ICONGROUP,MAINICON,
       - uses: actions/upload-artifact@v4
         with:
