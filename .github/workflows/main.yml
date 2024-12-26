@@ -41,6 +41,7 @@ jobs:
     needs: build
     runs-on: windows-2022
     steps:
+      - uses: actions/download-artifact@v4
       - run: Invoke-WebRequest -Uri https://www.angusj.com/resourcehacker/resource_hacker.zip -OutFile rh.zip
       - run: Expand-Archive -Path rh.zip -DestinationPath "$env:TEMP"
       - run: >
@@ -50,7 +51,6 @@ jobs:
           -resource icon.ico
           -action modify
           -mask ICONGROUP,MAINICON,
-      - uses: actions/download-artifact@v4
       - uses: actions/upload-artifact@v4
         with:
           name: generated
