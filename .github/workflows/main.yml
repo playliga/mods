@@ -13,22 +13,23 @@ jobs:
     env:
       NODE_SEA_FUSE: "fce680ab2cc467b6e072b8b5df1996b2"
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: .nvmrc
-      - run: npm ci
-      - run: npm run build
-      - run: node --experimental-sea-config sea.config.json
-      - run: node -e "require('fs').copyFileSync(process.execPath, 'build/lmc.exe')"
-      - run: signtool remove /s "build/lmc.exe"
-      - run: >
-          npx -y postject "build/lmc.exe" NODE_SEA_BLOB "build/bundle.blob"
-          --sentinel-fuse NODE_SEA_FUSE_${{ env.NODE_SEA_FUSE }}
-          --overwrite
-      - uses: actions/upload-artifact@v4
-        with:
-          path: build/lmc.exe
+      - run: WHERE /R C:\ signtool.exe
+      # - uses: actions/checkout@v4
+      # - uses: actions/setup-node@v4
+      #   with:
+      #     node-version-file: .nvmrc
+      # - run: npm ci
+      # - run: npm run build
+      # - run: node --experimental-sea-config sea.config.json
+      # - run: node -e "require('fs').copyFileSync(process.execPath, 'build/lmc.exe')"
+      # - run: signtool remove /s "build/lmc.exe"
+      # - run: >
+      #     npx -y postject "build/lmc.exe" NODE_SEA_BLOB "build/bundle.blob"
+      #     --sentinel-fuse NODE_SEA_FUSE_${{ env.NODE_SEA_FUSE }}
+      #     --overwrite
+      # - uses: actions/upload-artifact@v4
+      #   with:
+      #     path: build/lmc.exe
   publish:
     needs: build
     runs-on: ubuntu-latest
