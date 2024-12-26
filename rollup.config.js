@@ -7,7 +7,7 @@ import { nodeResolve } from "@rollup/plugin-node-resolve";
 export default {
   input: "cli/create.mts",
   output: {
-    file: "build/liga-create.cjs",
+    file: "build/bundle.cjs",
     format: "cjs",
   },
   plugins: [json(), typescript(), nodeResolve(), commonjs()],
