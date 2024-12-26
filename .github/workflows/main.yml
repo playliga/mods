@@ -45,6 +45,7 @@ jobs:
       - uses: actions/download-artifact@v4
       - run: for mod in $(ls custom); do zip build/$mod.zip custom/$mod; done
       - run: jq --slurp '.' custom/**/metadata.json >> build/index.json
-      - run: cat build/index.json
-      - run: ls -la build/
-      # create release with assets
+      - run: >
+          gh release create $(cat package.json | jq -r '.version')
+          --latest
+          --title $(cat package.json | jq -r '.version') build/*
