@@ -43,9 +43,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
-      - run: mkdir out
-      - run: for mod in $(ls custom); do zip out/$mod.zip custom/$mod; done
-      - run: unzip -l out/*.zip
+      - run: for mod in $(ls custom); do zip build/$mod.zip custom/$mod; done
+      - run: unzip -l build/*.zip
       # loop through folders
       # create a zip of each
       # generate an index.json containing array of all entries + metadata
