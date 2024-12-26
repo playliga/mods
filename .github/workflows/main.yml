@@ -12,6 +12,7 @@ jobs:
     runs-on: windows-2022
     env:
       NODE_SEA_FUSE: "fce680ab2cc467b6e072b8b5df1996b2"
+      SIGNTOOL_PATH: "C:/Program Files (x86)/Windows Kits/10/bin/**/x86"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -22,11 +23,11 @@ jobs:
       - run: node --experimental-sea-config sea.config.json
       - run: node -e "require('fs').copyFileSync(process.execPath, 'build/lmc.exe')"
       - run: >
-          gci -r "C:/Program Files (x86)/Windows Kits/10/bin/**/x86" signtool.exe
+          gci -r "${{ env.SIGNTOOL_PATH }}" signtool.exe
           | Select-Object -Last 1
-          | ForEach-Object {'SIGNTOOLS_EXE={0}' -f $_.FullName}
+          | ForEach-Object {'SIGNTOOL_EXE={0}' -f $_.FullName}
           | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-      - run: '& $env:SIGNTOOLS_EXE remove /s "build/lmc.exe"'
+      - run: '& $env:SIGNTOOL_EXE remove /s "build/lmc.exe"'
       - run: >
           npx -y postject "build/lmc.exe" NODE_SEA_BLOB "build/bundle.blob"
           --sentinel-fuse NODE_SEA_FUSE_${{ env.NODE_SEA_FUSE }}
