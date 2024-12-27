@@ -5,6 +5,7 @@ import { nodeResolve } from "@rollup/plugin-node-resolve";
 
 /** @type {import('rollup').RollupOptions} */
 export default {
+  external: ["node:sea"],
   input: "cli/create.mts",
   output: {
     file: "build/bundle.cjs",
