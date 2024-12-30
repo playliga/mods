@@ -49,7 +49,7 @@ async function handler() {
   const name = await rl.question(">> Enter the name of your mod: ");
   const author = await rl.question(">> Who is the author of this mod? ");
   const description = await rl.question(">> Provide a brief description of your mod: ");
-  const metadata = { name: sanitize(name), author, description };
+  const metadata = { name: sanitize(name), version: "1.0.0", author, description };
 
   const projectPath = path.join("custom", metadata.name);
   const metadataPath = path.join(projectPath, "metadata.json");
