@@ -1,6 +1,6 @@
 {
   "name": "@liga/mods",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "type": "module",
   "main": "cli/create.ts",
   "description": "Database and team logo customizations for LIGA Esports Manager.",
