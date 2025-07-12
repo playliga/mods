@@ -6,7 +6,7 @@ Database and team logo customizations for LIGA Esports Manager.
 
 ## APIs and Technologies
 
-- Node `v20.18.x`
+- Node `v22.x`
 
 ## Getting Started
 

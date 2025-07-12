@@ -1,6 +1,6 @@
 {
   "name": "@liga/mods",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "type": "module",
   "main": "cli/create.ts",
   "description": "Database and team logo customizations for LIGA Esports Manager.",
@@ -10,22 +10,22 @@
     "build": "rollup --config"
   },
   "devDependencies": {
-    "@eslint/js": "9.15.0",
-    "@rollup/plugin-commonjs": "28.0.2",
+    "@eslint/js": "9.31.0",
+    "@rollup/plugin-commonjs": "28.0.6",
     "@rollup/plugin-json": "6.1.0",
-    "@rollup/plugin-node-resolve": "16.0.0",
-    "@rollup/plugin-typescript": "12.1.2",
-    "@types/node": "22.9.3",
-    "eslint": "9.15.0",
-    "eslint-config-prettier": "9.1.0",
-    "globals": "15.12.0",
-    "prettier": "3.3.3",
-    "rollup": "4.29.1",
+    "@rollup/plugin-node-resolve": "16.0.1",
+    "@rollup/plugin-typescript": "12.1.4",
+    "@types/node": "24.0.13",
+    "eslint": "9.31.0",
+    "eslint-config-prettier": "10.1.5",
+    "globals": "16.3.0",
+    "prettier": "3.6.2",
+    "rollup": "4.45.0",
     "tslib": "2.8.1",
-    "typescript": "5.7.2",
-    "typescript-eslint": "8.15.0"
+    "typescript": "5.8.3",
+    "typescript-eslint": "8.36.0"
   },
   "dependencies": {
-    "commander": "12.1.0"
+    "commander": "14.0.0"
   }
 }

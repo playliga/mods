@@ -8,7 +8,7 @@ import * as readline from "node:readline/promises";
 import fs from "node:fs";
 import path from "node:path";
 import sea from "node:sea";
-import AppInfo from "../package.json" assert { type: "json" };
+import AppInfo from "../package.json" with { type: "json" };
 import { Command } from "commander";
 
 /** @constant */
