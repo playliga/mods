@@ -1,0 +1,45 @@
+{
+  "buildPresets": [
+    {
+      "configurePreset": "msvc-debug-configure",
+      "description": "Build using MSVC with Ninja in Debug mode",
+      "displayName": "MSVC Debug Build",
+      "name": "msvc-debug",
+      "targets": ["all"]
+    }
+  ],
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 30,
+    "patch": 5
+  },
+  "configurePresets": [
+    {
+      "name": "shared",
+      "description": "Shared settings for all platforms",
+      "hidden": true,
+      "binaryDir": "${sourceDir}/build",
+      "cacheVariables": {
+        "APP_AUTHOR": "Steve Rivera",
+        "APP_DESCRIPTION": "Modding tool for LIGA Esports Manager",
+        "APP_ID": "liga-modding-tool",
+        "APP_NAME": "LIGA Esports Manager Modding Tool",
+        "APP_VERSION": "0.0.1",
+        "CMAKE_CXX_STANDARD": "23"
+      },
+      "generator": "Ninja"
+    },
+    {
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_CXX_COMPILER": "cl"
+      },
+      "description": "Configures the project for MSVC with Debug settings",
+      "displayName": "MSVC Debug Configure",
+      "hidden": false,
+      "inherits": "shared",
+      "name": "msvc-debug-configure"
+    }
+  ],
+  "version": 3
+}

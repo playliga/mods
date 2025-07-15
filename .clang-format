@@ -1,0 +1,9 @@
+AlignAfterOpenBracket: DontAlign
+AllowAllArgumentsOnNextLine: false
+BasedOnStyle: Google
+BinPackArguments: false
+BinPackParameters: false
+BreakBeforeClosingParen: Always
+ColumnLimit: 120
+Cpp11BracedListStyle: false
+IndentWidth: 4

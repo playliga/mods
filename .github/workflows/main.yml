@@ -2,6 +2,11 @@ name: Publish
 
 on:
   workflow_dispatch:
+    inputs:
+      version:
+        type: string
+        required: true
+        description: The version to build. Must be a semver string.
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -10,33 +15,15 @@ concurrency:
 jobs:
   build:
     runs-on: windows-2022
-    env:
-      EXE_LMC: build/lmc.exe
-      NODE_SEA_FUSE: "fce680ab2cc467b6e072b8b5df1996b2"
-      SIGNTOOL_PATH: "C:/Program Files (x86)/Windows Kits/10/bin/**/x86"
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: .nvmrc
-      - run: npm ci
-      - run: npm run build
-      - run: node --experimental-sea-config sea.config.json
-      - run: node -e "require('fs').copyFileSync(process.execPath, '${{ env.EXE_LMC }}')"
-      - run: >
-          gci -r "${{ env.SIGNTOOL_PATH }}" signtool.exe
-          | Select-Object -Last 1
-          | ForEach-Object {'SIGNTOOL_EXE={0}' -f $_.FullName}
-          | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-      - run: '& $env:SIGNTOOL_EXE remove /s "${{ env.EXE_LMC }}"'
-      - run: >
-          npx -y postject "${{ env.EXE_LMC }}" NODE_SEA_BLOB "build/bundle.blob"
-          --sentinel-fuse NODE_SEA_FUSE_${{ env.NODE_SEA_FUSE }}
-          --overwrite
+      - uses: ilammy/msvc-dev-cmd@v1
+      - run: cmake --preset msvc-debug-configure -DAPP_VERSION="${{ inputs.version }}"
+      - run: cmake --build --preset msvc-debug
       - uses: actions/upload-artifact@v4
         with:
           name: build
-          path: ${{ env.EXE_LMC }}
+          path: build/*.exe
   publish:
     needs: build
     runs-on: ubuntu-latest
@@ -45,19 +32,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
+        with:
+          name: build
+          path: build
       - run: |
-          for mod in $(ls custom); do
+          for mod in $(ls mods); do
           (
             tempdir=$(mktemp -d)
             mkdir $tempdir/custom
-            cp -r custom/$mod/* $tempdir/custom
+            cp -r mods/$mod/custom/* $tempdir/custom
             cd $tempdir
             zip -r ${{ github.workspace }}/build/$mod.zip custom/
             rm -rf $tempdir
           )
           done
-      - run: jq --slurp '.' custom/**/metadata.json >> build/index.json
-      - run: >
-          gh release create $(cat package.json | jq -r '.version')
-          --latest
-          --title $(cat package.json | jq -r '.version') build/*
+      - run: jq --slurp '.' mods/**/custom/metadata.json >> build/index.json
+      - run: gh release create ${{ inputs.version }} --latest --title ${{ inputs.version }} build/*

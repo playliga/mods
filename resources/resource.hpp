@@ -1,0 +1,8 @@
+#pragma once
+#define IDI_ICON1 101
+#define IDD_MAIN_DIALOG 102
+#define IDC_MODNAME 1001
+#define IDC_AUTHOR 1002
+#define IDC_DESCRIPTION 1003
+#define IDC_SUBMIT 1004
+#define IDC_LOGBOX 1005
