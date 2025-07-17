@@ -18,7 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ilammy/msvc-dev-cmd@v1
-      - run: cmake --preset msvc-debug-configure -DAPP_VERSION="${{ inputs.version }}"
+      - run: cmake --preset msvc-debug-configure -DAPP_VERSION="${{ inputs.version }}" -DCMAKE_BUILD_TYPE="Release"
       - run: cmake --build --preset msvc-debug
       - uses: actions/upload-artifact@v4
         with:
