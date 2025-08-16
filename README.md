@@ -1,14 +1,14 @@
-# LIGA Esports Manager Mods
+[![Discord](https://img.shields.io/discord/1296858234853789826?style=for-the-badge&label=Join%20the%20Discord%20Server&logo=discord&logoColor=white)](https://discord.gg/ZaEwHfDD5N)
 
-[![Discord](https://img.shields.io/discord/1296858234853789826?style=for-the-badge&label=Join%20the%20Discord%20Server&link=https%3A%2F%2Fdiscord.gg%2FZaEwHfDD5N)](https://discord.gg/ZaEwHfDD5N)
+[![Static Badge](https://img.shields.io/badge/download-latest-salmon?style=for-the-badge&logo=mingww64)](https://playliga.gg/#/#download)
 
 Database and team logo customizations for LIGA Esports Manager.
 
-## Usage
+# Usage
 
 For usage instructions please refer to the [Modding and Packaging documentation](https://github.com/playliga/prototype/wiki/Modding#packaging).
 
-## Building
+# Building
 
 Download and run [Microsoft C++ Build Tools 2022](https://visualstudio.microsoft.com/visual-cpp-build-tools/).
 
