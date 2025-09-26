@@ -1,0 +1,10 @@
+Get-ChildItem *.png | ForEach-Object {
+    $input = $_.FullName
+
+    # Prendi il colore del pixel in alto a destra
+    $bgcolor = magick $input -format "%[pixel:p{w-1,0}]" info:
+
+    # Rendi trasparente solo il background, con tolleranza stretta e solo sui canali RGB
+    magick $input -channel RGB -fuzz 1% -transparent "$bgcolor" $input
+}
+
