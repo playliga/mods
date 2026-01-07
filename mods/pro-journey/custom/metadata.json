@@ -1,0 +1,9 @@
+{
+  "name": "pro-journey",
+  "author": "Rxpev",
+  "version": "1.0.0",
+  "description": "The ultimate player career journey.",
+  "homepage": "https://github.com/rxpev/LIGA-Pro-Journey#-features",
+  "executable": "liga/LIGA Esports Manager.exe",
+  "downloadUrl": "https://github.com/playliga/prototype/releases/download/v3.0.0-rc.1/LIGA.Esports.Manager-3.0.0-rc.1.Setup.exe"
+}

@@ -42,6 +42,11 @@ jobs:
             mkdir $tempdir/custom
             cp -r mods/$mod/custom/* $tempdir/custom
             cd $tempdir
+
+            # some mods may need to download extra files
+            downloadUrl=$(cat metadata.json | jq -r '.downloadUrl // empty')
+            curl -sSOLf "$downloadUrl" || true
+
             zip -r ${{ github.workspace }}/build/$mod.zip custom/
             rm -rf $tempdir
           )
