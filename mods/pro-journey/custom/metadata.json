@@ -1,0 +1,9 @@
+{
+  "name": "pro-journey",
+  "author": "Rxpev",
+  "version": "0.1.0",
+  "description": "The ultimate player career journey.",
+  "homepage": "https://github.com/rxpev/LIGA-Pro-Journey#-features",
+  "executable": "liga_pro_journey/LIGA Pro Journey.exe",
+  "downloadUrl": "https://github.com/rxpev/LIGA-Pro-Journey/releases/download/v0.1.0-alpha.8/LIGA.Pro.Journey-0.1.0-alpha.8.Setup.exe"
+}
